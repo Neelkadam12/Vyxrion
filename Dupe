@@ -1,0 +1,83 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+getgenv().SecureMode = true
+
+-- Create the main window
+local Window = Rayfield:CreateWindow({
+   Name = "🎃 HALLOWEEN GEMS DUPER 🌕",
+   LoadingTitle = "🔮 Loading the Duper Script 🔮",
+   LoadingSubtitle = "by Vyxrion",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil,
+      FileName = "HalloweenDuper"
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
+   },
+   KeySystem = false
+})
+
+-- Create the main tab
+local Tab = Window:CreateTab("GEM DUPE", 4483362458)
+
+-- Create the first section for Gem Duping
+local Section = Tab:CreateSection("💎 DUPLICATE YOUR GEMS 💎")
+
+-- Define DupedGems function outside the input callback
+local desiredAmount = nil -- Initialize this variable to store input
+
+local function DupedGems()
+   local library = require(game.ReplicatedStorage.Library.Client.CurrencyCmds)
+   local originalGetFunction = library.Get
+
+   local poop = originalGetFunction("Diamonds")
+   local increment = desiredAmount / 15
+   local delayTime = 0.1
+
+   if desiredAmount > 0 and desiredAmount < 30000000001 then
+      library.Get = function(currencyId)
+         if currencyId == "Diamonds" then
+            return poop
+         else
+            return originalGetFunction(currencyId)
+         end
+      end
+
+      while poop < desiredAmount do
+         poop = poop + increment
+         print(library.Get("Diamonds"))
+         wait(delayTime)
+      end
+   else
+      local message = require(game.ReplicatedStorage.Library.Client.Message)
+      message.Error("Hey, you need to enter a number between 0 and 25b!")
+   end
+end
+
+-- Input field to get the desired gem amount
+local Input = Tab:CreateInput({
+   Name = "💎 AMOUNT OF GEMS TO DUPE 💎",
+   PlaceholderText = "0",
+   RemoveTextAfterFocusLost = false,
+   Callback = function(Text)
+      desiredAmount = tonumber(Text) -- Store the input in the desiredAmount variable
+   end,
+})
+
+-- Button to start the duping process
+local Button = Tab:CreateButton({
+   Name = "💎 START DUPING... 💎",
+   Callback = function()
+      if desiredAmount and desiredAmount > 0 then
+         DupedGems() -- Call DupedGems function when the button is clicked
+      else
+         local message = require(game.ReplicatedStorage.Library.Client.Message)
+         message.Error("Please enter a valid amount before starting.")
+      end
+   end,
+})
+
+-- Badge notification
+local Badge = Tab:CreateLabel("🔮 This script is made by Vyxrion 🔮")
