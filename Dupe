@@ -3,13 +3,13 @@ getgenv().SecureMode = true
 
 -- Create the main window
 local Window = Rayfield:CreateWindow({
-   Name = "🎃 HALLOWEEN GEMS DUPER 🌕",
+   Name = "🏆PS99 GEMS DUPER🏆",
    LoadingTitle = "🔮 Loading the Duper Script 🔮",
    LoadingSubtitle = "by Vyxrion",
    ConfigurationSaving = {
       Enabled = true,
       FolderName = nil,
-      FileName = "HalloweenDuper"
+      FileName = "PS99DUPER"
    },
    Discord = {
       Enabled = false,
